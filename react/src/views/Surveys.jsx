@@ -1,6 +1,10 @@
+import PageComponent from "../components/PageComponent";
+
 export default function Surveys() {
   return (
-    <div>Surveys</div>
+    <PageComponent title="Surveys">
+Dashboard Content
+    </PageComponent>
   );
 }
 

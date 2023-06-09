@@ -4,15 +4,22 @@ import Surveys from "./views/Surveys";
 import Login from "./views/Login";
 import Signup from "./views/Signup.jsx";
 import GuestLayout from "./components/GuestLayout";
+import DefaultLayout from "./components/DefaultLayout";
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Dashboard/>
-  },
-  {
-    path: '/surveys',
-    element: <Surveys/>
+    element: <DefaultLayout/>,
+    children: [
+      {
+        path: '/',
+        element: <Dashboard/>
+      },
+      {
+        path: '/surveys',
+        element: <Surveys/>
+      }
+    ]
   },
   {
     path: '/',
