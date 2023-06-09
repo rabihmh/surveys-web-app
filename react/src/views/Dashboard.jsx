@@ -3,7 +3,7 @@ import PageComponent from "../components/PageComponent";
 export default function Dashboard() {
   return (
     <PageComponent title="Dashboard">
-      Surveys Content
+      Dashboard Content
     </PageComponent>
   );
 }

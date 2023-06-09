@@ -1,9 +1,9 @@
 import {Fragment} from 'react'
 import {Disclosure, Menu, Transition} from '@headlessui/react'
 import {Bars3Icon, UserIcon, XMarkIcon} from '@heroicons/react/24/outline'
-import {NavLink, Outlet} from "react-router-dom";
+import {Navigate, NavLink, Outlet} from "react-router-dom";
 import logoSvg from "../../public/logo.svg"
-import {userStateContext} from "../context/ContextProvider.jsx";
+import {useStateContext} from "../context/ContextProvider.jsx";
 
 // const user = {
 //   name: 'Tom Cook',
@@ -21,7 +21,10 @@ function classNames(...classes) {
 }
 
 export default function DefaultLayout() {
-  const {currentUser, userToken} = userStateContext();
+  const {currentUser, userToken} = useStateContext();
+  if (!userToken) {
+    return <Navigate to='/login'/>
+  }
   const logout = (ev) => {
     ev.preventDefault();
     console.log('Log out')
