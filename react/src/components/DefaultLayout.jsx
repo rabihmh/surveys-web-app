@@ -2,8 +2,9 @@ import {Fragment} from 'react'
 import {Disclosure, Menu, Transition} from '@headlessui/react'
 import {Bars3Icon, UserIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import {Navigate, NavLink, Outlet} from "react-router-dom";
-import logoSvg from "../../public/logo.svg"
+import logoSvg from "../assets/logo.svg"
 import {useStateContext} from "../context/ContextProvider.jsx";
+import axiosClient from "../axios.js";
 
 // const user = {
 //   name: 'Tom Cook',
@@ -21,13 +22,17 @@ function classNames(...classes) {
 }
 
 export default function DefaultLayout() {
-  const {currentUser, userToken} = useStateContext();
+  const {currentUser, userToken, setCurrentUser, setUserToken} = useStateContext();
+
   if (!userToken) {
     return <Navigate to='/login'/>
   }
   const logout = (ev) => {
     ev.preventDefault();
-    console.log('Log out')
+    axiosClient.post("/logout").then((res) => {
+      setCurrentUser({});
+      setUserToken(null);
+    });
   }
   return (
     <>

@@ -1,5 +1,5 @@
 import {Navigate, Outlet} from "react-router-dom";
-import logoSvg from "../../public/logo.svg"
+import logoSvg from "../assets/logo.svg"
 import {useStateContext} from "../context/ContextProvider.jsx";
 
 export default function GuestLayout() {
