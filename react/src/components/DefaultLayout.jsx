@@ -30,10 +30,13 @@ export default function DefaultLayout() {
   const logout = (ev) => {
     ev.preventDefault();
     axiosClient.post("/logout").then((res) => {
-      setCurrentUser({});
-      setUserToken(null);
+      if (res.data.status === true) {
+        setCurrentUser({});
+        setUserToken(null);
+      }
     });
-  }
+  };
+
   return (
     <>
       <div className="min-h-full">

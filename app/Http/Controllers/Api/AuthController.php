@@ -3,16 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\SignUpRequest;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\SignUpRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function signup(SignUpRequest $request)
+    public function signup(SignUpRequest $request): JsonResponse
     {
         $data = $request->validated();
         $user = User::create([
@@ -27,7 +28,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): JsonResponse
     {
         $credentials = $request->validated();
         $remember = $credentials['remember'] ?? false;
@@ -46,12 +47,11 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         $user = $request->user();
-        // $user = Auth::user();
-        $user->currentAccesToken()->delete();
-        return response([
+        $user->currentAccessToken()->delete();
+        return response()->json([
             'success' => true
         ]);
     }
