@@ -1,45 +1,58 @@
-import {createBrowserRouter} from "react-router-dom";
-import Dashboard from "./views/Dashboard";
-import Surveys from "./views/Surveys";
-import Login from "./views/Login";
-import Signup from "./views/Signup.jsx";
-import GuestLayout from "./components/GuestLayout";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import DefaultLayout from "./components/DefaultLayout";
+import GuestLayout from "./components/GuestLayout";
+import Dashboard from "./views/Dashboard";
+import Login from "./views/Login";
+import Signup from "./views/Signup";
+import SurveyPublicView from "./views/SurveyPublicView";
+import Surveys from "./views/Surveys";
 import SurveyView from "./views/SurveyView";
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <DefaultLayout/>,
+    path: "/",
+    element: <DefaultLayout />,
     children: [
       {
-        path: '/',
-        element: <Dashboard/>
+        path: '/dashboard',
+        element: <Navigate to="/" />
       },
       {
-        path: '/surveys',
-        element: <Surveys/>
+        path: "/",
+        element: <Dashboard />,
       },
       {
-        path: '/surveys/create',
-        element: <SurveyView/>
-      }
-    ]
+        path: "/surveys",
+        element: <Surveys />,
+      },
+      {
+        path: "/surveys/create",
+        element: <SurveyView />,
+      },
+      {
+        path: "/surveys/:id",
+        element: <SurveyView />,
+      },
+    ],
   },
   {
-    path: '/',
-    element: <GuestLayout/>,
+    path: "/",
+    element: <GuestLayout />,
     children: [
       {
-        path: 'login',
-        element: <Login/>
+        path: "/login",
+        element: <Login />,
       },
       {
-        path: 'signup',
-        element: <Signup/>
+        path: "/signup",
+        element: <Signup />,
       },
+    ],
+  },
+  {
+    path: "/survey/public/:slug",
+    element: <SurveyPublicView />,
+  },
+]);
 
-    ]
-  }
-])
 export default router;

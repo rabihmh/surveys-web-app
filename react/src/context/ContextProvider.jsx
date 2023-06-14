@@ -2,17 +2,23 @@ import {createContext, useContext, useState} from "react";
 
 const StateContext = createContext({
   currentUser: {},
-  userToken: {},
+  userToken: null,
   surveys: [],
+  questionTypes: [],
+  toast: {
+    message: null,
+    show: false,
+  },
   setCurrentUser: () => {
   },
   setUserToken: () => {
-  }
-})
+  },
+});
+
 const tmpSurveys = [
   {
     "id": 1,
-    "image_url": "https://tse2.mm.bing.net/th?id=OIP.p6_DFmsv5ENz76b_KxP-wwHaHa&pid=Api",
+    "image_url": "https:\/\/api.yoursurveys.xyz\/images\/vJutXzn02CDwdOyh.png",
     "title": "TheCodeholic YouTube channel",
     "slug": "thecodeholic-youtube-channel",
     "status": true,
@@ -153,7 +159,7 @@ const tmpSurveys = [
   },
   {
     "id": 2,
-    "image_url": "https://tse1.mm.bing.net/th?id=OIP.bg2y0P89OvLljni2vhaxZgHaHd&pid=Api",
+    "image_url": "https:\/\/api.yoursurveys.xyz\/images\/gjIHElz4aKrL0nT0.png",
     "title": "React",
     "slug": "react",
     "status": true,
@@ -165,7 +171,7 @@ const tmpSurveys = [
   },
   {
     "id": 3,
-    "image_url": "https://tse2.mm.bing.net/th?id=OIP.p6_DFmsv5ENz76b_KxP-wwHaHa&pid=Api",
+    "image_url": "https:\/\/api.yoursurveys.xyz\/images\/WPfzo0g66huUYYwR.png",
     "title": "Laravel 9",
     "slug": "laravel-9",
     "status": true,
@@ -178,13 +184,12 @@ const tmpSurveys = [
 ]
 
 export const ContextProvider = ({children}) => {
-  const [currentUser, setCurrentUser] = useState({
-    name: 'Tom Cook',
-    email: 'tom@example.com',
-    imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  });
-  const [userToken, _setUserToken] = useState(localStorage.getItem('TOKEN' || ''));
-  const [surveys, setSurveys] = useState(tmpSurveys);
+  const [currentUser, setCurrentUser] = useState({});
+  const [userToken, _setUserToken] = useState(localStorage.getItem('TOKEN') || '');
+  const [surveys, setSurveys] = useState(tmpSurveys)
+  const [questionTypes] = useState(['text', "select", "radio", "checkbox", "textarea"])
+  const [toast, setToast] = useState({message: '', show: false})
+
   const setUserToken = (token) => {
     if (token) {
       localStorage.setItem('TOKEN', token)
@@ -193,18 +198,30 @@ export const ContextProvider = ({children}) => {
     }
     _setUserToken(token);
   }
+
+  const showToast = (message) => {
+    setToast({message, show: true})
+    setTimeout(() => {
+      setToast({message: '', show: false})
+    }, 5000)
+  }
+
   return (
-    <StateContext.Provider value={
-      {
+    <StateContext.Provider
+      value={{
         currentUser,
         setCurrentUser,
         userToken,
         setUserToken,
         surveys,
-      }
-    }>
+        questionTypes,
+        toast,
+        showToast
+      }}
+    >
       {children}
     </StateContext.Provider>
-  )
-}
-export const useStateContext = () => useContext(StateContext)
+  );
+};
+
+export const useStateContext = () => useContext(StateContext);

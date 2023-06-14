@@ -50,7 +50,7 @@ export default function QuestionEditor({
   }
 
   function deleteOption(op) {
-    model.data.options = model.data.options.filter(option => option.uuid !== op.uuid)
+    model.data.options = model.data.options.filter(option => option.uuid != op.uuid)
     setModel({...model})
   }
 

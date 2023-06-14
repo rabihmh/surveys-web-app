@@ -21,7 +21,7 @@ class Survey extends Model
     public static function booted()
     {
         static::creating(function (Survey $survey) {
-            $survey->slug = Str::slug($survey->name);
+            $survey->slug = Str::slug($survey->title);
         });
     }
 

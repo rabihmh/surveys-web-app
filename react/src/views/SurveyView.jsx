@@ -1,17 +1,18 @@
-import {LinkIcon, PhotoIcon, TrashIcon} from "@heroicons/react/24/outline";
-import {useEffect, useState} from "react";
+import { LinkIcon, PhotoIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 import TButton from "../components/core/TButton";
 import PageComponent from "../components/PageComponent";
 import axiosClient from "../axios.js";
-import {useNavigate, useParams} from "react-router-dom";
-import {v4 as uuidv4} from "uuid";
-import {useStateContext} from "../context/ContextProvider.jsx";
-import SurveyQuestions from "../components/SurveyQuestions.jsx";
+import { useNavigate, useParams } from "react-router-dom";
+import SurveyQuestions from "../components/SurveyQuestions";
+import { v4 as uuidv4 } from "uuid";
+import { useEffect } from "react";
+import { useStateContext } from "../context/ContextProvider";
 
 export default function SurveyView() {
-  const {showToast} = useStateContext();
+  const { showToast } = useStateContext();
   const navigate = useNavigate();
-  const {id} = useParams();
+  const { id } = useParams();
 
   const [survey, setSurvey] = useState({
     title: "",
@@ -45,7 +46,7 @@ export default function SurveyView() {
   const onSubmit = (ev) => {
     ev.preventDefault();
 
-    const payload = {...survey};
+    const payload = { ...survey };
     if (payload.image) {
       payload.image = payload.image_url;
     }
@@ -90,7 +91,7 @@ export default function SurveyView() {
       description: "",
       data: {},
     });
-    setSurvey({...survey});
+    setSurvey({ ...survey });
   };
 
   const onDelete = () => {
@@ -100,7 +101,7 @@ export default function SurveyView() {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      axiosClient.get(`/survey/${id}`).then(({data}) => {
+      axiosClient.get(`/survey/${id}`).then(({ data }) => {
         setSurvey(data.data);
         setLoading(false);
       });
@@ -114,11 +115,11 @@ export default function SurveyView() {
       buttons={
         <div className="flex gap-2">
           <TButton color="green" href={`/survey/public/${survey.slug}`}>
-            <LinkIcon className="h-4 w-4 mr-2"/>
+            <LinkIcon className="h-4 w-4 mr-2" />
             Public Link
           </TButton>
           <TButton color="red" onClick={onDelete}>
-            <TrashIcon className="h-4 w-4 mr-2"/>
+            <TrashIcon className="h-4 w-4 mr-2" />
             Delete
           </TButton>
         </div>
@@ -147,9 +148,8 @@ export default function SurveyView() {
                     />
                   )}
                   {!survey.image_url && (
-                    <span
-                      className="flex justify-center  items-center text-gray-400 h-12 w-12 overflow-hidden rounded-full bg-gray-100">
-                      <PhotoIcon className="w-8 h-8"/>
+                    <span className="flex justify-center  items-center text-gray-400 h-12 w-12 overflow-hidden rounded-full bg-gray-100">
+                      <PhotoIcon className="w-8 h-8" />
                     </span>
                   )}
                   <button
@@ -181,7 +181,7 @@ export default function SurveyView() {
                   id="title"
                   value={survey.title}
                   onChange={(ev) =>
-                    setSurvey({...survey, title: ev.target.value})
+                    setSurvey({ ...survey, title: ev.target.value })
                   }
                   placeholder="Survey Title"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -203,7 +203,7 @@ export default function SurveyView() {
                   id="description"
                   value={survey.description || ""}
                   onChange={(ev) =>
-                    setSurvey({...survey, description: ev.target.value})
+                    setSurvey({ ...survey, description: ev.target.value })
                   }
                   placeholder="Describe your survey"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -225,7 +225,7 @@ export default function SurveyView() {
                   id="expire_date"
                   value={survey.expire_date}
                   onChange={(ev) =>
-                    setSurvey({...survey, expire_date: ev.target.value})
+                    setSurvey({ ...survey, expire_date: ev.target.value })
                   }
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
@@ -241,7 +241,7 @@ export default function SurveyView() {
                     type="checkbox"
                     checked={survey.status}
                     onChange={(ev) =>
-                      setSurvey({...survey, status: ev.target.checked})
+                      setSurvey({ ...survey, status: ev.target.checked })
                     }
                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                   />

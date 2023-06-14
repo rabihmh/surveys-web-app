@@ -12,6 +12,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('surveys', function (Blueprint $table) {
+            $table->id();
             $table->foreignIdFor(User::class, 'user_id');
             $table->string('image', 255)->nullable();
             $table->string('title', 1000);
